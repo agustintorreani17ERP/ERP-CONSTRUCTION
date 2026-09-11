@@ -1,32 +1,33 @@
-# React + TypeScript + Vite
+# InfraTrack ERP — obras viales
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Backend Express + Prisma + PostgreSQL (Neon). Frontend React + Tailwind.
 
-Currently, two official plugins are available:
+## Arranque
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+```bash
+# backend (carpeta sistema-erp)
+npm install
+npx prisma generate
+npx prisma db push
+npx prisma db seed
+npm run dev
 
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+# frontend (carpeta erp-frontend)
+npm run dev
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+`DATABASE_URL` ya vive en `.env` (Neon). Plantilla: `.env.example`.
+
+## API
+
+| Método | Ruta | Efecto |
+|---|---|---|
+| GET | `/api/dashboard` | KPIs gerencia |
+| GET/POST | `/api/pedidos` | Pedidos de material (origen jefe de frente) |
+| POST | `/api/pedidos/:id/aprobar` | BORRADOR → APROBADO_PARA_COMPRA |
+| GET/POST | `/api/compras` | OC **obligatoriamente** ligada a un pedido |
+| POST | `/api/compras/:id/aprobar` | → APROBADO_PARA_COMPRA |
+| POST | `/api/compras/:id/emitir` | Compromete presupuesto (techo duro) |
+| POST | `/api/compras/:id/recibir` | Stock + ejecución |
+| POST | `/api/compras/:id/anular` | Libera compromiso si estaba EMITIDA |
+| POST | `/api/subcontratos/certificados/:id/certificar` | Techo de partida + techo de contrato |

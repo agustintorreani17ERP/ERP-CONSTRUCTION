@@ -1,0 +1,8 @@
+{
+  "name": "InfraTrack ERP",
+  "description": "ERP vial — control presupuestario y compras de obra",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
